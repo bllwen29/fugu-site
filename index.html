@@ -456,10 +456,10 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
       <div class="time">06/19 23:00</div>
       <div class="date">北京时间 6月19日 晚上11点</div>
     </div>
-    <div class="match-tip">
+    <div class="match-tip" onclick="showMemberTip()" style="cursor:pointer;">
       <div>
-        <div class="tip-label">分析结论</div>
-        <div class="tip-text">土耳其胜</div>
+        <div class="tip-label">👑 会员专享推荐</div>
+        <div class="tip-text">🔒 点击解锁完整推荐</div>
       </div>
       <div class="tip-odds">赔率约 1.88 | 金额 ¥1000</div>
     </div>
@@ -740,9 +740,37 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     </div>
   </div>
 
+  <!-- 会员专享推荐弹窗 -->
+  <div id="memberTipModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#111; border:1px solid #1e1e2e; border-radius:20px; padding:40px; max-width:420px; width:90%; text-align:center; position:relative;">
+      <button onclick="closeMemberTip()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#64748b; font-size:1.5em; cursor:pointer;">×</button>
+      <div style="font-size:4em; margin-bottom:16px;">👑</div>
+      <h3 style="font-size:1.4em; margin-bottom:16px; color:#f5c518;">会员专享推荐</h3>
+      <p style="color:#f1f5f9; margin-bottom:24px; font-size:1.05em;">想要查看完整推荐分析？</p>
+      
+      <!-- 方案1 -->
+      <div style="background:#1a1a28; border:2px solid #34d399; border-radius:12px; padding:20px; margin-bottom:16px; text-align:left;">
+        <h4 style="color:#34d399; margin-bottom:8px;">🍋 方案一：每月下3箱单</h4>
+        <p style="color:#64748b; font-size:0.85em;">购买柠檬蜂蜜水，每月下单满3箱<br>自动成为月度会员，解锁所有推荐</p>
+      </div>
+      
+      <!-- 方案2 -->
+      <div style="background:#1a1a28; border:2px solid #f5c518; border-radius:12px; padding:20px; margin-bottom:24px; text-align:left;">
+        <h4 style="color:#f5c518; margin-bottom:8px;">💳 方案二：88元/月会员费</h4>
+        <p style="color:#64748b; font-size:0.85em;">直接支付88元/月会员费<br>立即解锁，无需购买商品</p>
+      </div>
+      
+      <a href="#product" onclick="closeMemberTip()" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:16px 32px; border-radius:50px; text-decoration:none; font-size:1em; display:inline-block; margin-bottom:12px;">🍋 去下单柠檬蜂蜜水</a>
+      <br>
+      <a href="#member" onclick="closeMemberTip()" style="color:#f5c518; font-size:0.9em;">或开通88元/月会员 →</a>
+    </div>
+  </div>
+
   <script>
   function showWechat() { document.getElementById('wechatModal').style.display='flex'; }
   function closeWechat() { document.getElementById('wechatModal').style.display='none'; }
+  function showMemberTip() { document.getElementById('memberTipModal').style.display='flex'; }
+  function closeMemberTip() { document.getElementById('memberTipModal').style.display='none'; }
   function copyWechatId() {
     const wechatId = 'fuge888';
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -766,7 +794,7 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
       setTimeout(() => { el.textContent = wechatId; }, 1500);
     }
   }
-  document.addEventListener('keydown', e => { if(e.key==='Escape') closeWechat(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') { closeWechat(); closeMemberTip(); } });
   </script>
 </section>
 
@@ -779,8 +807,23 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center;">
       <div style="font-size:4em; margin-bottom:16px;">🔒</div>
       <h3 style="font-size:1.3em; margin-bottom:12px;">会员专享内容</h3>
-      <p style="color:var(--muted); margin-bottom:24px;">购买3箱柠檬蜂蜜水即可解锁会员<br>享受专属推荐和VIP服务</p>
-      <a href="#product" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; display:inline-block;">🍋 去下单</a>
+      <p style="color:var(--muted); margin-bottom:24px;">解锁全部足球推荐、VIP分析服务</p>
+      
+      <!-- 方案1 -->
+      <div style="background:#1a2f1a; border:2px solid #34d399; border-radius:12px; padding:20px; margin-bottom:16px; text-align:left;">
+        <h4 style="color:#34d399; margin-bottom:8px;">🍋 方案一：每月下3箱单</h4>
+        <p style="color:#64748b; font-size:0.85em;">购买柠檬蜂蜜水，每月下单满3箱<br>自动成为月度会员，解锁所有推荐</p>
+      </div>
+      
+      <!-- 方案2 -->
+      <div style="background:#2a2f1a; border:2px solid #f5c518; border-radius:12px; padding:20px; margin-bottom:24px; text-align:left;">
+        <h4 style="color:#f5c518; margin-bottom:8px;">💳 方案二：88元/月会员费</h4>
+        <p style="color:#64748b; font-size:0.85em;">直接支付88元/月会员费<br>立即解锁所有推荐，无需购买商品</p>
+      </div>
+      
+      <a href="#product" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; display:inline-block; margin-bottom:12px;">🍋 去下单柠檬蜂蜜水</a>
+      <br>
+      <p style="color:var(--muted); font-size:0.85em; margin-top:8px;">或联系富哥微信开通88元/月会员</p>
     </div>
   </div>
 
