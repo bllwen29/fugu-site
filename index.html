@@ -1017,7 +1017,10 @@ function verifyMember() {
   error.style.display = 'none';
   checkMember();
   
-  alert('🎉 恭喜！会员已解锁，有效期1个月！验证码有效期至：' + result.expireDate);
+  alert('🎉 恭喜！会员已解锁，有效期1个月！');
+  
+  // 滚动到会员推荐区域
+  document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // 足球推荐下方验证码函数
@@ -1052,7 +1055,10 @@ function verifyMember2() {
   localStorage.setItem('fugu_code_expire', result.expireDate);
   
   checkMember();
-  alert('🎉 恭喜！会员已解锁，有效期1个月！验证码有效期至：' + result.expireDate);
+  alert('🎉 恭喜！会员已解锁，有效期1个月！');
+  
+  // 滚动到会员推荐区域
+  document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // 页面加载时检查会员状态
