@@ -949,12 +949,13 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
 
 <script>
 // ========== 验证码系统 ==========
-// 验证码列表：每个验证码有截止日期
-// 格式：'验证码': 'YYYY-MM-DD截止日期'
+// 验证码列表：每个验证码有截止日期和类型
+// 格式：'验证码': { expire: 'YYYY-MM-DD', type: 'football'|'stock' }
+// type: football=足球会员, stock=股票会员
 const VALID_CODES = {
-  'LM-A7K2': '2026-07-19',  // 示例验证码，有效期1个月
-  'LM-M2JZ': '2026-07-19',  // 新增验证码，有效期1个月
-  // 新增验证码格式：'LM-XXXX': 'YYYY-MM-DD'
+  'LM-A7K2': { expire: '2026-07-19', type: 'football' },  // 足球会员
+  'LM-M2JZ': { expire: '2026-07-19', type: 'football' },  // 足球会员
+  // 新增验证码格式：'LM-XXXX': { expire: 'YYYY-MM-DD', type: 'football'|'stock' }
   // 富哥生成新验证码后，在这里添加一行
 };
 
@@ -965,15 +966,15 @@ function isValidCode(code) {
     return { valid: false, error: '验证码错误' };
   }
   
-  const expireDateStr = VALID_CODES[upperCode];
-  const expireDate = new Date(expireDateStr);
+  const codeInfo = VALID_CODES[upperCode];
+  const expireDate = new Date(codeInfo.expire);
   const now = new Date();
   
   if (now > expireDate) {
     return { valid: false, error: '验证码已过期，请联系富哥获取新验证码' };
   }
   
-  return { valid: true, expireDate: expireDateStr };
+  return { valid: true, expireDate: codeInfo.expire, type: codeInfo.type };
 }
 
 // 会员验证逻辑
@@ -991,23 +992,27 @@ function checkMember() {
     const expire = parseInt(expireTime);
     
     if (now < expire) {
-      unlocked.style.display = 'block';
-      verify.style.display = 'none';
-      navMember.style.color = 'var(--gold)';
+      const memberType = localStorage.getItem('fugu_member_type');
       
-      // 显示到期日
-      const expireDate = new Date(expire);
-      document.getElementById('memberExpire').textContent = expireDate.toLocaleDateString('zh-CN');
-      
-      // 解锁后隐藏验证码输入框
-      const verifySection = document.getElementById('memberVerify');
-      if (verifySection) verifySection.style.display = 'none';
-      
-      // 显示股票记录
-      const stockLocked = document.getElementById('stockLocked');
-      const stockUnlocked = document.getElementById('stockUnlocked');
-      if (stockLocked) stockLocked.style.display = 'none';
-      if (stockUnlocked) stockUnlocked.style.display = 'block';
+      // 根据会员类型解锁对应内容
+      if (memberType === 'stock') {
+        // 股票会员
+        document.getElementById('stockLocked').style.display = 'none';
+        document.getElementById('stockUnlocked').style.display = 'block';
+      } else {
+        // 足球会员（默认）
+        unlocked.style.display = 'block';
+        verify.style.display = 'none';
+        navMember.style.color = 'var(--gold)';
+        
+        // 显示到期日
+        const expireDate = new Date(expire);
+        document.getElementById('memberExpire').textContent = expireDate.toLocaleDateString('zh-CN');
+        
+        // 解锁后隐藏验证码输入框
+        const verifySection = document.getElementById('memberVerify');
+        if (verifySection) verifySection.style.display = 'none';
+      }
       return;
     } else {
       // 已过期
@@ -1055,14 +1060,20 @@ function verifyMember() {
   localStorage.setItem('fugu_member_expire', expire.getTime().toString());
   localStorage.setItem('fugu_member_code', code);
   localStorage.setItem('fugu_code_expire', result.expireDate);
+  localStorage.setItem('fugu_member_type', result.type);
   
   error.style.display = 'none';
   checkMember();
   
-  alert('🎉 恭喜！会员已解锁，有效期1个月！');
+  const typeName = result.type === 'stock' ? '股票实战' : '足球推荐';
+  alert('🎉 恭喜！' + typeName + '会员已解锁，有效期1个月！');
   
-  // 滚动到会员推荐区域
-  document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // 滚动到对应区域
+  if (result.type === 'stock') {
+    document.getElementById('stock').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // 足球推荐下方验证码函数
@@ -1095,12 +1106,19 @@ function verifyMember2() {
   localStorage.setItem('fugu_member_expire', expire.getTime().toString());
   localStorage.setItem('fugu_member_code', code);
   localStorage.setItem('fugu_code_expire', result.expireDate);
+  localStorage.setItem('fugu_member_type', result.type);
   
   checkMember();
-  alert('🎉 恭喜！会员已解锁，有效期1个月！');
   
-  // 滚动到会员推荐区域
-  document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const typeName = result.type === 'stock' ? '股票实战' : '足球推荐';
+  alert('🎉 恭喜！' + typeName + '会员已解锁，有效期1个月！');
+  
+  // 滚动到对应区域
+  if (result.type === 'stock') {
+    document.getElementById('stock').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // 股票会员验证
@@ -1123,6 +1141,12 @@ function verifyStockMember() {
     return;
   }
   
+  // 检查是否是股票会员验证码
+  if (result.type !== 'stock') {
+    alert('此验证码是足球会员，不能用于股票区域。请使用股票会员验证码。');
+    return;
+  }
+  
   // 验证通过！设置1个月会员
   const now = new Date();
   const expire = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -1130,12 +1154,13 @@ function verifyStockMember() {
   localStorage.setItem('fugu_member', 'true');
   localStorage.setItem('fugu_member_expire', expire.getTime().toString());
   localStorage.setItem('fugu_member_code', code);
+  localStorage.setItem('fugu_member_type', 'stock');
   
   // 显示股票记录
   document.getElementById('stockLocked').style.display = 'none';
   document.getElementById('stockUnlocked').style.display = 'block';
   
-  alert('🎉 会员已解锁，有效期1个月！');
+  alert('🎉 股票实战会员已解锁，有效期1个月！');
   document.getElementById('stockUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
