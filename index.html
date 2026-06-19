@@ -396,6 +396,7 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     <a href="#football" style="color:#64748b; text-decoration:none; font-size:0.9em; transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">⚽ 足球</a>
     <a href="#stock" style="color:#64748b; text-decoration:none; font-size:0.9em; transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">📈 股票</a>
     <a href="#product" style="color:#64748b; text-decoration:none; font-size:0.9em; transition:color 0.2s;" onmouseover="this.style.color='#34d399'" onmouseout="this.style.color='#64748b'">🍋 柠檬水</a>
+    <a href="#member" id="navMember" style="color:#64748b; text-decoration:none; font-size:0.9em; transition:color 0.2s;" onmouseover="this.style.color='#f5c518'" onmouseout="this.style.color='#64748b'">👑 会员</a>
     <a href="#about" style="color:#64748b; text-decoration:none; font-size:0.9em; transition:color 0.2s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">👤 关于</a>
   </div>
 </nav>
@@ -721,6 +722,116 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeWechat(); });
   </script>
 </section>
+
+<!-- MEMBER SECTION -->
+<section id="member" style="padding:80px 20px; max-width:800px; margin:0 auto;">
+  <p class="section-label">👑 Member</p>
+  <h2 class="section-title" style="margin-bottom:32px;">会员解锁</h2>
+  
+  <div id="memberLocked" style="display:none;">
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center;">
+      <div style="font-size:4em; margin-bottom:16px;">🔒</div>
+      <h3 style="font-size:1.3em; margin-bottom:12px;">会员专享内容</h3>
+      <p style="color:var(--muted); margin-bottom:24px;">购买3箱柠檬蜂蜜水即可解锁会员<br>享受专属推荐和VIP服务</p>
+      <a href="#product" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; display:inline-block;">🍋 去下单</a>
+    </div>
+  </div>
+
+  <div id="memberUnlocked" style="display:none;">
+    <div style="background:linear-gradient(135deg,var(--card),var(--card2)); border:1px solid rgba(245,197,24,0.3); border-radius:20px; padding:40px; text-align:center;">
+      <div style="font-size:4em; margin-bottom:16px;">👑</div>
+      <h3 style="font-size:1.3em; margin-bottom:12px; color:var(--gold);">会员已解锁</h3>
+      <p style="color:var(--muted); margin-bottom:16px;">有效期至：<span id="memberExpire" style="color:#fff;"></span></p>
+      <p style="color:var(--green); font-size:0.9em;">✅ 享受所有会员专享内容</p>
+    </div>
+  </div>
+
+  <div id="memberVerify" style="display:block;">
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center;">
+      <h3 style="font-size:1.2em; margin-bottom:20px;">输入验证码解锁会员</h3>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto 20px;">
+        <input type="text" id="verifyCode" placeholder="例：LM-A7K2" maxlength="20" style="flex:1; min-width:150px; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; color:#fff; font-size:1em; text-align:center; outline:none;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <button onclick="verifyMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:14px 32px; border:none; border-radius:50px; cursor:pointer; font-size:1em;">解锁会员</button>
+      <p id="verifyError" style="color:var(--red); margin-top:16px; display:none;"></p>
+      <p style="color:var(--muted); font-size:0.8em; margin-top:20px;">验证码由富哥微信发送</p>
+    </div>
+  </div>
+</section>
+
+<script>
+// 会员验证逻辑
+function checkMember() {
+  const locked = document.getElementById('memberLocked');
+  const unlocked = document.getElementById('memberUnlocked');
+  const verify = document.getElementById('memberVerify');
+  const navMember = document.getElementById('navMember');
+  
+  // 检查localStorage
+  const isMember = localStorage.getItem('fugu_member') === 'true';
+  const expireTime = localStorage.getItem('fugu_member_expire');
+  
+  if (isMember && expireTime) {
+    const now = new Date().getTime();
+    const expire = parseInt(expireTime);
+    
+    if (now < expire) {
+      locked.style.display = 'none';
+      unlocked.style.display = 'block';
+      verify.style.display = 'none';
+      navMember.style.color = 'var(--gold)';
+      
+      // 显示到期日
+      const expireDate = new Date(expire);
+      document.getElementById('memberExpire').textContent = expireDate.toLocaleDateString('zh-CN');
+      return;
+    } else {
+      // 已过期
+      localStorage.removeItem('fugu_member');
+      localStorage.removeItem('fugu_member_expire');
+    }
+  }
+  
+  locked.style.display = 'block';
+  unlocked.style.display = 'none';
+  verify.style.display = 'block';
+  navMember.style.color = '#64748b';
+}
+
+function verifyMember() {
+  const code = document.getElementById('verifyCode').value.trim().toUpperCase();
+  const error = document.getElementById('verifyError');
+  
+  if (!code) {
+    error.textContent = '请输入验证码';
+    error.style.display = 'block';
+    return;
+  }
+  
+  // 验证（这里写正确的验证码）
+  // 验证码格式：LM-开头，后跟4位字母数字
+  if (/^LM-[A-Z0-9]{4}$/.test(code)) {
+    // 验证通过！设置1年会员
+    const now = new Date();
+    const expire = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 1年后
+    
+    localStorage.setItem('fugu_member', 'true');
+    localStorage.setItem('fugu_member_expire', expire.getTime().toString());
+    localStorage.setItem('fugu_member_code', code);
+    
+    error.style.display = 'none';
+    checkMember();
+    
+    alert('🎉 恭喜！会员已解锁，有效期1年！');
+  } else {
+    error.textContent = '验证码错误，请检查后重试';
+    error.style.display = 'block';
+  }
+}
+
+// 页面加载时检查会员状态
+checkMember();
+</script>
 
 <!-- ABOUT SECTION -->
 <section id="about">
