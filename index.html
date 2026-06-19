@@ -466,6 +466,16 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     </div>
   </div>
 
+  <!-- 会员解锁小栏（足球推荐下方） -->
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; margin-bottom:32px; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85em; margin-bottom:12px;">🔑 已有验证码？输入立即解锁会员推荐</p>
+    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto;">
+      <input type="text" id="verifyCode2" placeholder="输入验证码" maxlength="20" style="flex:1; min-width:100px; background:var(--bg); border:2px solid var(--gold); border-radius:8px; padding:10px 14px; color:#fff; font-size:0.85em; text-align:center; outline:none; font-weight:700;">
+      <button onclick="verifyMember2()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:10px 16px; border:none; border-radius:8px; cursor:pointer; font-size:0.85em;">解锁</button>
+    </div>
+    <p style="color:var(--muted); font-size:0.75em; margin-top:8px;">🍋 方案一：每月3箱单 | 💳 方案二：88元/月</p>
+  </div>
+
   <!-- 历史战绩 -->
   <h3 style="font-size:1.2em; margin-bottom:20px; color:var(--muted);">📋 历史战绩</h3>
   <div class="record-grid">
@@ -941,6 +951,41 @@ function verifyMember() {
   checkMember();
   
   alert('🎉 恭喜！会员已解锁，有效期1年！验证码有效期至：' + result.expireDate);
+}
+
+// 足球推荐下方验证码函数
+function verifyMember2() {
+  const code = document.getElementById('verifyCode2').value.trim().toUpperCase();
+  
+  if (!code) {
+    alert('请输入验证码');
+    return;
+  }
+  
+  // 验证格式
+  if (!/^LM-[A-Z0-9]{4}$/.test(code)) {
+    alert('验证码格式错误，正确格式：LM-XXXX');
+    return;
+  }
+  
+  // 验证验证码
+  const result = isValidCode(code);
+  if (!result.valid) {
+    alert(result.error);
+    return;
+  }
+  
+  // 验证通过！设置1年会员
+  const now = new Date();
+  const expire = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+  
+  localStorage.setItem('fugu_member', 'true');
+  localStorage.setItem('fugu_member_expire', expire.getTime().toString());
+  localStorage.setItem('fugu_member_code', code);
+  localStorage.setItem('fugu_code_expire', result.expireDate);
+  
+  checkMember();
+  alert('🎉 恭喜！会员已解锁，有效期1年！');
 }
 
 // 页面加载时检查会员状态
