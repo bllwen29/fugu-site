@@ -703,14 +703,24 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
   </div>
 
   <!-- 微信下单弹窗（默认隐藏） -->
-  <div id="wechatModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
-    <div style="background:#111; border:1px solid #1e1e2e; border-radius:20px; padding:40px; max-width:400px; width:90%; text-align:center; position:relative;">
+  <div id="wechatModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#111; border:1px solid #1e1e2e; border-radius:20px; padding:40px; max-width:420px; width:90%; text-align:center; position:relative;">
       <button onclick="closeWechat()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#64748b; font-size:1.5em; cursor:pointer;">×</button>
       <h3 style="font-size:1.3em; margin-bottom:16px;">📱 加微信下单</h3>
-      <p style="color:#64748b; margin-bottom:24px; font-size:0.9em;">长按识别二维码加我<br>备注"柠檬蜂蜜水"快速下单</p>
-      <div style="background:#fff; border-radius:12px; padding:16px; display:inline-block; margin-bottom:20px;">
-        <img src="./img/lemon/wechat-qr-new.jpg" style="width:200px; height:200px; object-fit:contain;" alt="微信二维码">
+      <p style="color:#64748b; margin-bottom:24px; font-size:0.9em;">微信搜索或扫码添加<br>备注"柠檬蜂蜜水"快速下单</p>
+      
+      <!-- 微信号复制区 -->
+      <div style="background:#1a1a28; border:2px dashed #34d399; border-radius:12px; padding:20px; margin-bottom:20px;">
+        <p style="color:#64748b; font-size:0.75em; margin-bottom:8px;">微信号（长按复制）</p>
+        <p id="wechatId" style="color:#34d399; font-size:1.4em; font-weight:700; user-select:all; cursor:pointer;" onclick="copyWechatId()" title="点击复制">fuge888</p>
+        <p style="color:#34d399; font-size:0.8em; margin-top:8px;">👆 点击即可复制</p>
       </div>
+      
+      <!-- 二维码 -->
+      <div style="background:#fff; border-radius:12px; padding:16px; display:inline-block; margin-bottom:16px;">
+        <img src="./img/lemon/wechat-qr-new.jpg" style="width:180px; height:180px; object-fit:contain;" alt="微信二维码">
+      </div>
+      
       <p style="color:#34d399; font-size:0.85em;">¥4.9/瓶 · 12支/箱 · 一箱包邮</p>
       <p style="color:#64748b; font-size:0.75em; margin-top:8px;">新疆、西藏等偏远地区除外</p>
     </div>
@@ -719,6 +729,29 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
   <script>
   function showWechat() { document.getElementById('wechatModal').style.display='flex'; }
   function closeWechat() { document.getElementById('wechatModal').style.display='none'; }
+  function copyWechatId() {
+    const wechatId = 'fuge888';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(wechatId).then(() => {
+        const el = document.getElementById('wechatId');
+        el.textContent = '✅ 已复制!';
+        setTimeout(() => { el.textContent = wechatId; }, 1500);
+      });
+    } else {
+      // 降级方案：使用textarea
+      const textarea = document.createElement('textarea');
+      textarea.value = wechatId;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      const el = document.getElementById('wechatId');
+      el.textContent = '✅ 已复制!';
+      setTimeout(() => { el.textContent = wechatId; }, 1500);
+    }
+  }
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeWechat(); });
   </script>
 </section>
