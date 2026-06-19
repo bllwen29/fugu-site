@@ -570,48 +570,66 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     </div>
   </div>
 
-  <div class="stock-table-wrap">
-    <table class="stock-table">
-      <thead>
-        <tr>
-          <th>股票名称</th>
-          <th>成本价</th>
-          <th>关注价</th>
-          <th>当前状态</th>
-          <th>浮盈/亏</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="name">民生银行</span><span class="code">600016</span></td>
-          <td>3.59</td>
-          <td>3.59</td>
-          <td>持有中</td>
-          <td class="up">+0.28%</td>
-        </tr>
-        <tr>
-          <td><span class="name">中国平安</span><span class="code">601318</span></td>
-          <td>~48</td>
-          <td>~48</td>
-          <td>持有中 <span class="tag">盈利中</span></td>
-          <td class="up">+10.9%</td>
-        </tr>
-        <tr>
-          <td><span class="name">隆基绿能</span><span class="code">601012</span></td>
-          <td>~12.5</td>
-          <td>~12.5</td>
-          <td>持有中 <span class="tag">盈利中</span></td>
-          <td class="up">+6.8%</td>
-        </tr>
-        <tr>
-          <td><span class="name">510300 ETF</span><span class="code">沪深300</span></td>
-          <td>4.86</td>
-          <td>4.86</td>
-          <td>持有中</td>
-          <td class="up">+0.78%</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- 股票会员锁 -->
+  <div id="stockLocked" style="background:var(--card); border:2px solid var(--gold); border-radius:20px; padding:40px; text-align:center; margin-bottom:32px;">
+    <div style="font-size:3em; margin-bottom:16px;">🔒</div>
+    <h3 style="font-size:1.2em; margin-bottom:12px; color:var(--gold);">会员专享内容</h3>
+    <p style="color:var(--muted); margin-bottom:20px;">输入验证码解锁股票实战记录</p>
+    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto 16px;">
+      <input type="text" id="stockVerifyCode" placeholder="输入验证码" maxlength="20" style="flex:1; min-width:100px; background:var(--bg); border:2px solid var(--gold); border-radius:10px; padding:12px 16px; color:#fff; font-size:0.9em; text-align:center; outline:none; font-weight:700;">
+      <button onclick="verifyStockMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:12px 24px; border:none; border-radius:10px; cursor:pointer; font-size:0.9em;">解锁</button>
+    </div>
+    <p style="color:var(--muted); font-size:0.8em;">验证码由富哥微信发送</p>
+  </div>
+
+  <!-- 股票记录（解锁后显示） -->
+  <div id="stockUnlocked" style="display:none;">
+    <div class="stock-table-wrap">
+      <table class="stock-table">
+        <thead>
+          <tr>
+            <th>股票名称</th>
+            <th>买入日期</th>
+            <th>成本价</th>
+            <th>当前状态</th>
+            <th>浮盈/亏</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="name">民生银行</span><span class="code">600016</span></td>
+            <td>06-12</td>
+            <td>3.58</td>
+            <td>持有中</td>
+            <td class="up">+0.28%</td>
+          </tr>
+          <tr>
+            <td><span class="name">中国平安</span><span class="code">601318</span></td>
+            <td>06-12</td>
+            <td>53.57</td>
+            <td>持有中 <span class="tag">盈利中</span></td>
+            <td class="up">+10.9%</td>
+          </tr>
+          <tr>
+            <td><span class="name">隆基绿能</span><span class="code">601012</span></td>
+            <td>06-12</td>
+            <td>12.66</td>
+            <td>持有中 <span class="tag">盈利中</span></td>
+            <td class="up">+6.8%</td>
+          </tr>
+          <tr>
+            <td><span class="name">510300 ETF</span><span class="code">沪深300</span></td>
+            <td>06-09</td>
+            <td>4.86</td>
+            <td>持有中</td>
+            <td class="up">+0.78%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="stock-note">
+      💡 投资有风险，以上仅为个人记录，不构成投资建议。仅供参考，盈亏自负。
+    </div>
   </div>
 
   <div class="stock-note">
@@ -984,6 +1002,12 @@ function checkMember() {
       // 解锁后隐藏验证码输入框
       const verifySection = document.getElementById('memberVerify');
       if (verifySection) verifySection.style.display = 'none';
+      
+      // 显示股票记录
+      const stockLocked = document.getElementById('stockLocked');
+      const stockUnlocked = document.getElementById('stockUnlocked');
+      if (stockLocked) stockLocked.style.display = 'none';
+      if (stockUnlocked) stockUnlocked.style.display = 'block';
       return;
     } else {
       // 已过期
@@ -1077,6 +1101,42 @@ function verifyMember2() {
   
   // 滚动到会员推荐区域
   document.getElementById('memberUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 股票会员验证
+function verifyStockMember() {
+  const code = document.getElementById('stockVerifyCode').value.trim().toUpperCase();
+  
+  if (!code) {
+    alert('请输入验证码');
+    return;
+  }
+  
+  if (!/^LM-[A-Z0-9]{4}$/.test(code)) {
+    alert('验证码格式错误');
+    return;
+  }
+  
+  const result = isValidCode(code);
+  if (!result.valid) {
+    alert(result.error);
+    return;
+  }
+  
+  // 验证通过！设置1个月会员
+  const now = new Date();
+  const expire = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+  
+  localStorage.setItem('fugu_member', 'true');
+  localStorage.setItem('fugu_member_expire', expire.getTime().toString());
+  localStorage.setItem('fugu_member_code', code);
+  
+  // 显示股票记录
+  document.getElementById('stockLocked').style.display = 'none';
+  document.getElementById('stockUnlocked').style.display = 'block';
+  
+  alert('🎉 会员已解锁，有效期1个月！');
+  document.getElementById('stockUnlocked').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // 页面加载时检查会员状态
