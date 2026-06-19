@@ -803,11 +803,33 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
   <p class="section-label">👑 Member</p>
   <h2 class="section-title" style="margin-bottom:32px;">会员解锁</h2>
   
-  <div id="memberLocked" style="display:none;">
-    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center;">
-      <div style="font-size:4em; margin-bottom:16px;">🔒</div>
-      <h3 style="font-size:1.3em; margin-bottom:12px;">会员专享内容</h3>
-      <p style="color:var(--muted); margin-bottom:24px;">解锁全部足球推荐、VIP分析服务</p>
+  <!-- 已解锁会员 -->
+  <div id="memberUnlocked" style="display:none;">
+    <div style="background:linear-gradient(135deg,var(--card),var(--card2)); border:1px solid rgba(245,197,24,0.3); border-radius:20px; padding:40px; text-align:center;">
+      <div style="font-size:4em; margin-bottom:16px;">👑</div>
+      <h3 style="font-size:1.3em; margin-bottom:12px; color:var(--gold);">会员已解锁</h3>
+      <p style="color:var(--muted); margin-bottom:16px;">有效期至：<span id="memberExpire" style="color:#fff;"></span></p>
+      <p style="color:var(--green); font-size:0.9em;">✅ 享受所有会员专享内容</p>
+    </div>
+  </div>
+
+  <!-- 验证码解锁（默认显示） -->
+  <div id="memberVerify" style="display:block;">
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center; margin-bottom:24px;">
+      <div style="font-size:3em; margin-bottom:16px;">🔑</div>
+      <h3 style="font-size:1.3em; margin-bottom:12px;">输入验证码解锁</h3>
+      <p style="color:var(--muted); margin-bottom:20px;">有验证码？输入即可解锁会员</p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto 20px;">
+        <input type="text" id="verifyCode" placeholder="例：LM-A7K2" maxlength="20" style="flex:1; min-width:150px; background:var(--bg); border:2px solid var(--gold); border-radius:12px; padding:16px 20px; color:#fff; font-size:1.2em; text-align:center; outline:none; font-weight:700; letter-spacing:2px;">
+      </div>
+      <button onclick="verifyMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:16px 40px; border:none; border-radius:50px; cursor:pointer; font-size:1.1em; width:100%; max-width:300px;">🎉 解锁会员</button>
+      <p id="verifyError" style="color:var(--red); margin-top:16px; display:none;"></p>
+      <p style="color:var(--muted); font-size:0.8em; margin-top:16px;">验证码由富哥微信发送</p>
+    </div>
+    
+    <!-- 解锁方案 -->
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px; text-align:center;">
+      <h3 style="font-size:1.1em; margin-bottom:20px; color:var(--muted);">还没有验证码？</h3>
       
       <!-- 方案1 -->
       <div style="background:#1a2f1a; border:2px solid #34d399; border-radius:12px; padding:20px; margin-bottom:16px; text-align:left;">
@@ -821,30 +843,8 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
         <p style="color:#64748b; font-size:0.85em;">直接支付88元/月会员费<br>立即解锁所有推荐，无需购买商品</p>
       </div>
       
-      <a href="#product" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; display:inline-block; margin-bottom:12px;">🍋 去下单柠檬蜂蜜水</a>
-      <br>
-      <p style="color:var(--muted); font-size:0.85em; margin-top:8px;">或联系富哥微信开通88元/月会员</p>
-    </div>
-  </div>
-
-  <div id="memberUnlocked" style="display:none;">
-    <div style="background:linear-gradient(135deg,var(--card),var(--card2)); border:1px solid rgba(245,197,24,0.3); border-radius:20px; padding:40px; text-align:center;">
-      <div style="font-size:4em; margin-bottom:16px;">👑</div>
-      <h3 style="font-size:1.3em; margin-bottom:12px; color:var(--gold);">会员已解锁</h3>
-      <p style="color:var(--muted); margin-bottom:16px;">有效期至：<span id="memberExpire" style="color:#fff;"></span></p>
-      <p style="color:var(--green); font-size:0.9em;">✅ 享受所有会员专享内容</p>
-    </div>
-  </div>
-
-  <div id="memberVerify" style="display:block;">
-    <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; text-align:center;">
-      <h3 style="font-size:1.2em; margin-bottom:20px;">输入验证码解锁会员</h3>
-      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto 20px;">
-        <input type="text" id="verifyCode" placeholder="例：LM-A7K2" maxlength="20" style="flex:1; min-width:150px; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:14px 20px; color:#fff; font-size:1em; text-align:center; outline:none;" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--border)'">
-      </div>
-      <button onclick="verifyMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:14px 32px; border:none; border-radius:50px; cursor:pointer; font-size:1em;">解锁会员</button>
-      <p id="verifyError" style="color:var(--red); margin-top:16px; display:none;"></p>
-      <p style="color:var(--muted); font-size:0.8em; margin-top:20px;">验证码由富哥微信发送</p>
+      <a href="#product" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; display:inline-block;">🍋 去下单柠檬蜂蜜水</a>
+      <p style="color:var(--muted); font-size:0.8em; margin-top:12px;">或联系富哥微信开通会员</p>
     </div>
   </div>
 </section>
@@ -879,7 +879,6 @@ function isValidCode(code) {
 
 // 会员验证逻辑
 function checkMember() {
-  const locked = document.getElementById('memberLocked');
   const unlocked = document.getElementById('memberUnlocked');
   const verify = document.getElementById('memberVerify');
   const navMember = document.getElementById('navMember');
@@ -893,7 +892,6 @@ function checkMember() {
     const expire = parseInt(expireTime);
     
     if (now < expire) {
-      locked.style.display = 'none';
       unlocked.style.display = 'block';
       verify.style.display = 'none';
       navMember.style.color = 'var(--gold)';
@@ -909,7 +907,7 @@ function checkMember() {
     }
   }
   
-  locked.style.display = 'block';
+  // 不是会员时显示验证码输入框和解锁方案
   unlocked.style.display = 'none';
   verify.style.display = 'block';
   navMember.style.color = '#64748b';
