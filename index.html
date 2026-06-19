@@ -970,6 +970,7 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
 const VALID_CODES = {
   'LM-A7K2': { expire: '2026-07-19', type: 'football' },  // 足球会员
   'LM-M2JZ': { expire: '2026-07-19', type: 'football' },  // 足球会员
+  'LM-ZQN2': { expire: '2026-07-19', type: 'stock' },     // 股票会员
   // 新增验证码格式：'LM-XXXX': { expire: 'YYYY-MM-DD', type: 'football'|'stock' }
   // 富哥生成新验证码后，在这里添加一行
 };
@@ -1156,7 +1157,7 @@ function verifyStockMember() {
     return;
   }
   
-  // 检查是否是股票会员验证码
+  // 检查是否是股票会员验证码（足球验证码不能用于股票）
   if (result.type !== 'stock') {
     alert('此验证码是足球会员，不能用于股票区域。请使用股票会员验证码。');
     return;
