@@ -813,38 +813,35 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
     </div>
   </div>
 
-  <!-- 会员方案 + 验证码输入 -->
+  <!-- 会员方案（验证码嵌入在里面） -->
   <div id="memberVerify" style="display:block;">
-    <!-- 验证码输入（最上面） -->
-    <div style="background:var(--card); border:2px solid var(--gold); border-radius:20px; padding:32px; text-align:center; margin-bottom:20px;">
-      <div style="font-size:2.5em; margin-bottom:12px;">🔑</div>
-      <h3 style="font-size:1.1em; margin-bottom:12px;">已有验证码？输入立即解锁</h3>
-      <p style="color:var(--muted); margin-bottom:16px; font-size:0.85em;">验证码由富哥微信发送</p>
-      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; max-width:400px; margin:0 auto;">
-        <input type="text" id="verifyCode" placeholder="LM-A7K2" maxlength="20" style="flex:1; min-width:150px; background:var(--bg); border:2px solid var(--gold); border-radius:12px; padding:14px 20px; color:#fff; font-size:1.1em; text-align:center; outline:none; font-weight:700; letter-spacing:2px;">
-        <button onclick="verifyMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:14px 32px; border:none; border-radius:50px; cursor:pointer; font-size:1em;">🎉 解锁</button>
-      </div>
-      <p id="verifyError" style="color:var(--red); margin-top:12px; display:none; font-size:0.85em;"></p>
-    </div>
-    
-    <!-- 购买方案（验证码下面） -->
     <div style="background:var(--card); border:1px solid var(--border); border-radius:20px; padding:32px;">
-      <h3 style="font-size:1.1em; margin-bottom:20px; text-align:center;">还没有验证码？获取方式：</h3>
+      <h3 style="font-size:1.1em; margin-bottom:20px; text-align:center;">👑 开通会员 获取推荐</h3>
+      
+      <!-- 验证码输入（方案上方） -->
+      <div style="background:var(--card2); border:2px solid var(--gold); border-radius:16px; padding:20px; margin-bottom:20px; text-align:center;">
+        <p style="color:#f5c518; font-size:0.9em; margin-bottom:12px;">已有验证码？输入立即解锁</p>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+          <input type="text" id="verifyCode" placeholder="LM-A7K2" maxlength="20" style="flex:1; min-width:120px; background:var(--bg); border:2px solid var(--gold); border-radius:10px; padding:12px 16px; color:#fff; font-size:1em; text-align:center; outline:none; font-weight:700; letter-spacing:1px;">
+          <button onclick="verifyMember()" style="background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#000; font-weight:700; padding:12px 24px; border:none; border-radius:10px; cursor:pointer; font-size:0.95em; white-space:nowrap;">🎉 解锁</button>
+        </div>
+        <p id="verifyError" style="color:var(--red); margin-top:10px; display:none; font-size:0.85em;"></p>
+      </div>
       
       <!-- 方案1 -->
-      <div style="background:#1a2f1a; border:2px solid #34d399; border-radius:12px; padding:20px; margin-bottom:16px;">
-        <h4 style="color:#34d399; margin-bottom:8px; font-size:1em;">🍋 方案一：每月下3箱单</h4>
-        <p style="color:#64748b; font-size:0.85em;">购买柠檬蜂蜜水，每月下单满3箱<br>自动成为月度会员，解锁所有推荐</p>
+      <div style="background:#1a2f1a; border:2px solid #34d399; border-radius:12px; padding:16px; margin-bottom:12px;">
+        <h4 style="color:#34d399; margin-bottom:6px; font-size:0.95em;">🍋 方案一：每月下3箱单</h4>
+        <p style="color:#64748b; font-size:0.8em;">购买柠檬蜂蜜水，每月下单满3箱<br>自动成为月度会员，解锁所有推荐</p>
       </div>
       
       <!-- 方案2 -->
-      <div style="background:#2a2f1a; border:2px solid #f5c518; border-radius:12px; padding:20px; margin-bottom:20px;">
-        <h4 style="color:#f5c518; margin-bottom:8px; font-size:1em;">💳 方案二：88元/月会员</h4>
-        <p style="color:#64748b; font-size:0.85em;">直接支付88元/月会员费<br>立即解锁所有推荐，无需购买商品</p>
+      <div style="background:#2a2f1a; border:2px solid #f5c518; border-radius:12px; padding:16px; margin-bottom:20px;">
+        <h4 style="color:#f5c518; margin-bottom:6px; font-size:0.95em;">💳 方案二：88元/月会员</h4>
+        <p style="color:#64748b; font-size:0.8em;">直接支付88元/月会员费<br>立即解锁所有推荐，无需购买商品</p>
       </div>
       
       <a href="#product" style="display:block; background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:14px 32px; border-radius:50px; text-decoration:none; text-align:center; font-size:1em;">🍋 去下单柠檬蜂蜜水</a>
-      <p style="color:var(--muted); font-size:0.8em; margin-top:12px; text-align:center;">或联系富哥微信开通88元/月会员</p>
+      <p style="color:var(--muted); font-size:0.8em; margin-top:12px; text-align:center;">验证码由富哥微信发送 | 或联系微信开通会员</p>
     </div>
   </div>
 </section>
