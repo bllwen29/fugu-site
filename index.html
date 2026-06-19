@@ -589,44 +589,59 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
         <thead>
           <tr>
             <th>股票名称</th>
+            <th>代码</th>
             <th>买入日期</th>
             <th>成本价</th>
-            <th>当前状态</th>
+            <th>持仓股数</th>
             <th>浮盈/亏</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="name">民生银行</span><span class="code">600016</span></td>
+            <td><span class="name">民生银行</span></td>
+            <td><span class="code">600016</span></td>
             <td>06-12</td>
             <td>3.58</td>
-            <td>持有中</td>
-            <td class="up">+0.28%</td>
+            <td>31,213股</td>
+            <td class="down">-3.01%</td>
           </tr>
           <tr>
-            <td><span class="name">中国平安</span><span class="code">601318</span></td>
+            <td><span class="name">中国平安</span></td>
+            <td><span class="code">601318</span></td>
             <td>06-12</td>
             <td>53.57</td>
-            <td>持有中 <span class="tag">盈利中</span></td>
-            <td class="up">+10.9%</td>
+            <td>2,494股</td>
+            <td class="down">-1.86%</td>
           </tr>
           <tr>
-            <td><span class="name">隆基绿能</span><span class="code">601012</span></td>
+            <td><span class="name">隆基绿能</span></td>
+            <td><span class="code">601012</span></td>
             <td>06-12</td>
             <td>12.66</td>
-            <td>持有中 <span class="tag">盈利中</span></td>
-            <td class="up">+6.8%</td>
+            <td>7,979股</td>
+            <td class="up">+6.80%</td>
           </tr>
           <tr>
-            <td><span class="name">510300 ETF</span><span class="code">沪深300</span></td>
+            <td><span class="name">510300 ETF</span></td>
+            <td><span class="code">沪深300</span></td>
             <td>06-09</td>
             <td>4.86</td>
-            <td>持有中</td>
+            <td>18,300股</td>
             <td class="up">+0.78%</td>
           </tr>
         </tbody>
       </table>
     </div>
+    
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:16px;">
+      <p style="color:var(--muted); font-size:0.85em;">📊 操作记录</p>
+      <p style="color:#64748b; font-size:0.8em; margin-top:8px;">• 06-09 买入 510300 ETF 18,300股 @4.86</p>
+      <p style="color:#64748b; font-size:0.8em;">• 06-12 买入 民生银行 31,213股 @3.58</p>
+      <p style="color:#64748b; font-size:0.8em;">• 06-12 买入 中国平安 2,494股 @53.57</p>
+      <p style="color:#64748b; font-size:0.8em;">• 06-12 买入 隆基绿能 7,979股 @12.66</p>
+      <p style="color:var(--red); font-size:0.8em; margin-top:8px;">⚠️ 当前持仓中，尚未卖出</p>
+    </div>
+    
     <div class="stock-note">
       💡 投资有风险，以上仅为个人记录，不构成投资建议。仅供参考，盈亏自负。
     </div>
