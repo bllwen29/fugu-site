@@ -755,25 +755,48 @@ footer .warning { color: var(--muted); font-size: 0.75em; margin-top: 16px; opac
   <div id="memberTipModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
     <div style="background:#111; border:1px solid #1e1e2e; border-radius:20px; padding:40px; max-width:420px; width:90%; text-align:center; position:relative;">
       <button onclick="closeMemberTip()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#64748b; font-size:1.5em; cursor:pointer;">×</button>
-      <div style="font-size:4em; margin-bottom:16px;">👑</div>
-      <h3 style="font-size:1.4em; margin-bottom:16px; color:#f5c518;">会员专享分析</h3>
-      <p style="color:#f1f5f9; margin-bottom:24px; font-size:1.05em;">想要查看完整推荐分析？</p>
+      <div style="font-size:3em; margin-bottom:16px;">👑</div>
+      <h3 style="font-size:1.3em; margin-bottom:16px; color:#f5c518;">👑 会员专享分析</h3>
       
-      <!-- 方案1 -->
-      <div style="background:#1a1a28; border:2px solid #34d399; border-radius:12px; padding:20px; margin-bottom:16px; text-align:left;">
-        <h4 style="color:#34d399; margin-bottom:8px;">🍋 方案一：每月下3箱单</h4>
-        <p style="color:#64748b; font-size:0.85em;">购买柠檬蜂蜜水，每月下单满3箱<br>自动成为月度会员，解锁所有推荐</p>
+      <!-- 今日推荐内容 -->
+      <div style="background:#1a1a28; border:1px solid #1e1e2e; border-radius:16px; padding:24px; margin-bottom:20px; text-align:center;">
+        <p style="color:#64748b; font-size:0.85em; margin-bottom:16px;">🔥 世界杯 · 今日重点分析</p>
+        <div style="display:flex; justify-content:center; align-items:center; gap:20px; margin-bottom:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:2.5em; margin-bottom:4px;">🇹🇷</div>
+            <div style="font-weight:700; font-size:1.1em;">土耳其</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="color:#64748b; font-size:0.9em;">VS</div>
+            <div style="color:#f5c518; font-size:0.8em; margin-top:4px;">06-20 11:00</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:2.5em; margin-bottom:4px;">🇵🇾</div>
+            <div style="font-weight:700; font-size:1.1em;">巴拉圭</div>
+          </div>
+        </div>
+        <div style="background:rgba(245,197,24,0.15); border-radius:8px; padding:12px; margin-bottom:12px;">
+          <p style="color:#f5c518; font-weight:700; font-size:1.1em;">参考：土耳其胜 | 赔率 1.72</p>
+          <p style="color:#64748b; font-size:0.8em; margin-top:4px;">让球胜平负参考：土耳其-1 | 赔率 3.50</p>
+        </div>
+        <p style="color:#64748b; font-size:0.8em;">👑 解锁会员查看完整分析</p>
       </div>
       
-      <!-- 方案2 -->
-      <div style="background:#1a1a28; border:2px solid #f5c518; border-radius:12px; padding:20px; margin-bottom:24px; text-align:left;">
-        <h4 style="color:#f5c518; margin-bottom:8px;">💳 方案二：88元/月会员费</h4>
-        <p style="color:#64748b; font-size:0.85em;">直接支付88元/月会员费<br>立即解锁，无需购买商品</p>
+      <!-- 方案 -->
+      <div style="text-align:left; margin-bottom:16px;">
+        <div style="background:#1a2f1a; border:2px solid #34d399; border-radius:10px; padding:14px; margin-bottom:10px;">
+          <h4 style="color:#34d399; margin-bottom:4px; font-size:0.9em;">🍋 方案一：每月下3箱单</h4>
+          <p style="color:#64748b; font-size:0.8em;">购买柠檬蜂蜜水，每月3箱自动成为会员</p>
+        </div>
+        <div style="background:#2a2f1a; border:2px solid #f5c518; border-radius:10px; padding:14px;">
+          <h4 style="color:#f5c518; margin-bottom:4px; font-size:0.9em;">💳 方案二：88元/月</h4>
+          <p style="color:#64748b; font-size:0.8em;">直接支付88元开通1个月会员</p>
+        </div>
       </div>
       
-      <a href="#product" onclick="closeMemberTip()" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:16px 32px; border-radius:50px; text-decoration:none; font-size:1em; display:inline-block; margin-bottom:12px;">🍋 去下单柠檬蜂蜜水</a>
+      <a href="#product" onclick="closeMemberTip()" style="background:linear-gradient(135deg,#34d399,#16a34a); color:#fff; font-weight:700; padding:14px 28px; border-radius:50px; text-decoration:none; font-size:0.95em; display:inline-block; margin-bottom:10px;">🍋 去下单柠檬蜂蜜水</a>
       <br>
-      <a href="#member" onclick="closeMemberTip()" style="color:#f5c518; font-size:0.9em;">或开通88元/月会员 →</a>
+      <a href="#member" onclick="closeMemberTip()" style="color:#f5c518; font-size:0.85em;">或开通88元/月会员 →</a>
     </div>
   </div>
 
@@ -939,9 +962,9 @@ function verifyMember() {
     return;
   }
   
-  // 验证通过！设置1年会员
+  // 验证通过！设置1个月会员
   const now = new Date();
-  const expire = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 1年后
+  const expire = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 1个月后
   
   localStorage.setItem('fugu_member', 'true');
   localStorage.setItem('fugu_member_expire', expire.getTime().toString());
@@ -951,7 +974,7 @@ function verifyMember() {
   error.style.display = 'none';
   checkMember();
   
-  alert('🎉 恭喜！会员已解锁，有效期1年！验证码有效期至：' + result.expireDate);
+  alert('🎉 恭喜！会员已解锁，有效期1个月！验证码有效期至：' + result.expireDate);
 }
 
 // 足球推荐下方验证码函数
@@ -976,9 +999,9 @@ function verifyMember2() {
     return;
   }
   
-  // 验证通过！设置1年会员
+  // 验证通过！设置1个月会员
   const now = new Date();
-  const expire = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000);
+  const expire = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 1个月
   
   localStorage.setItem('fugu_member', 'true');
   localStorage.setItem('fugu_member_expire', expire.getTime().toString());
@@ -986,7 +1009,7 @@ function verifyMember2() {
   localStorage.setItem('fugu_code_expire', result.expireDate);
   
   checkMember();
-  alert('🎉 恭喜！会员已解锁，有效期1年！');
+  alert('🎉 恭喜！会员已解锁，有效期1个月！验证码有效期至：' + result.expireDate);
 }
 
 // 页面加载时检查会员状态
